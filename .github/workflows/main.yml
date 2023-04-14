@@ -4,7 +4,6 @@ on:
     branches: 
       - master
       - dev
-  workflow_dispatch:
   
 jobs:
   lint:
@@ -12,9 +11,10 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
-        with:
-          ref: ${{inputs.branch}}
 
+      - name: Run Lint
+        run: ./gradlew lintDebug
+        
       - name: Upload html test report
         uses: actions/upload-artifact@v2
         with:
