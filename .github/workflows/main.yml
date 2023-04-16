@@ -13,15 +13,15 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
         
-      - name: Change permission of gradlew script
-        run: chmod +x gradlew
-        
   lint:
     needs: setup-deps
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
         uses: actions/checkout@v3.5.2
+        
+      - name: Change permission of gradlew script
+        run: chmod +x gradlew
 
       - name: Run Lint
         run: ./gradlew lintDebug
@@ -38,6 +38,9 @@ jobs:
     steps:
     - name: Checkout the code
       uses: actions/checkout@v3.5.2
+      
+    - name: Change permission of gradlew script
+      run: chmod +x gradlew
       
     - name: Run tests
       run: ./gradlew test
