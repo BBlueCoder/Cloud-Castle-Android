@@ -1,6 +1,5 @@
 package com.bluecoder.cloudcastle.core.data
 
-import com.bluecoder.cloudcastle.utils.FileType
 
 data class FileItem(
     val id : Int,
