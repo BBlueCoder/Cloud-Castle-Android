@@ -16,7 +16,7 @@ class DefaultUsersRepo @Inject constructor(private val serverAPI: ServerAPI) : U
             val resp = serverAPI.signup(user)
             if(!resp.isSuccessful){
                 val errorMsg = resp.errorBody()?.string()
-                Log.e("API ERROR",""+errorMsg)
+                //Log.e("API ERROR",""+errorMsg)
                 throw Exception(errorMsg)
             }
 
@@ -34,7 +34,7 @@ class DefaultUsersRepo @Inject constructor(private val serverAPI: ServerAPI) : U
             val resp = serverAPI.login(user)
             if(!resp.isSuccessful){
                 val errorMsg = resp.errorBody()?.string()
-                Log.e("API ERROR",""+errorMsg)
+                //Log.e("API ERROR",""+errorMsg)
                 throw Exception(errorMsg)
             }
 
