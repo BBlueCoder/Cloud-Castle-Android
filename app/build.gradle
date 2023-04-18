@@ -72,6 +72,8 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 
+    testImplementation 'org.mockito:mockito-core:3.12.4'
+
     implementation "androidx.navigation:navigation-compose:$nav_version"
 
     //Retrofit
