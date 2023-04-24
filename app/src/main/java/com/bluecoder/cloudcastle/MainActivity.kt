@@ -7,12 +7,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.bluecoder.cloudcastle.ui.screens.auth.AuthViewModel
 import com.bluecoder.cloudcastle.ui.screens.auth.LoginScreen
 import com.bluecoder.cloudcastle.ui.screens.auth.SignupScreen
+import com.bluecoder.cloudcastle.ui.screens.main.MainScreen
+import com.bluecoder.cloudcastle.ui.screens.main.MainViewModel
 import com.bluecoder.cloudcastle.ui.theme.CloudCastleTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +26,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
-
+        val mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         setContent {
             val navController = rememberNavController()
@@ -33,6 +37,12 @@ class MainActivity : ComponentActivity() {
                 }
                 composable("signup"){
                     SignupScreen(authViewModel = authViewModel,navController)
+                }
+                composable(
+                    "main/{token}",
+                    arguments = listOf(navArgument("token"){type = NavType.StringType})
+                ){
+                    MainScreen( navController = navController, token = it.arguments?.getString("token")?: "", mainViewModel = mainViewModel)
                 }
             }
         }

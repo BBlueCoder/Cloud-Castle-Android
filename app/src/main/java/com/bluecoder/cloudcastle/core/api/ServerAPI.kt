@@ -11,6 +11,7 @@ import retrofit2.http.HTTP
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ServerAPI {
 
@@ -21,7 +22,10 @@ interface ServerAPI {
     suspend fun login(@Body user: User): Response<UserJWT>
 
     @GET("files")
-    suspend fun getFiles(@Header("authentication") token: String): Response<List<FileItem>>
+    suspend fun getFiles(
+        @Header("authentication") token: String,
+        @Query("file_type") fileType : String = "image"
+    ): Response<List<FileItem>>
 
     @GET("files/metadata/{id}")
     suspend fun getFileById(

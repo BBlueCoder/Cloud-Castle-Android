@@ -38,6 +38,7 @@ class AuthViewModel @Inject constructor(private val usersRepo: UsersRepo) : View
 
     fun login(){
         viewModelScope.launch(Dispatchers.IO){
+            println("LoginTAG ************************* login called")
             usersRepo.login(currentUser).collect{
                 _userAuthenticatingState.emit(it)
             }

@@ -1,6 +1,8 @@
 package com.bluecoder.cloudcastle.core.di
 
 import com.bluecoder.cloudcastle.core.api.ServerAPI
+import com.bluecoder.cloudcastle.core.repos.files.DefaultFilesRepo
+import com.bluecoder.cloudcastle.core.repos.files.FilesRepo
 import com.bluecoder.cloudcastle.core.repos.users.DefaultUsersRepo
 import com.bluecoder.cloudcastle.core.repos.users.UsersRepo
 import com.bluecoder.cloudcastle.utils.Constants.API_BASE_URL
@@ -41,5 +43,11 @@ object AppModule {
     @Provides
     fun provideUsersRepo(serverAPI: ServerAPI): UsersRepo{
         return DefaultUsersRepo(serverAPI)
+    }
+
+    @Singleton
+    @Provides
+    fun provideFilesRepo(serverAPI: ServerAPI): FilesRepo{
+        return DefaultFilesRepo(serverAPI)
     }
 }

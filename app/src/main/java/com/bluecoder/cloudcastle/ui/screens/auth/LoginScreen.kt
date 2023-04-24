@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 
 @Composable
@@ -31,21 +32,27 @@ fun LoginScreen(
 ){
     val scaffoldState = rememberScaffoldState()
 
-    val authState by authViewModel.userAuthenticatingState.collectAsState()
+    val authState by authViewModel.userAuthenticatingState.collectAsStateWithLifecycle()
 
     val focusManager = LocalFocusManager.current
+
+    var token = ""
 
     if(authState != null){
         if(authState!!.isFailure){
             LaunchedEffect(key1 = scaffoldState.snackbarHostState){
                 scaffoldState.snackbarHostState.showSnackbar("Login failed")
                 println("Login failed ${authState!!.exceptionOrNull()?.message}")
-
             }
         }else{
-            LaunchedEffect(key1 = scaffoldState.snackbarHostState){
-                scaffoldState.snackbarHostState.showSnackbar("Login success")
-                println("Login success ${authState!!.getOrNull()?.token}")
+            LaunchedEffect(key1 = "login"){
+                println("LoginTAG **************** Login success ${authState!!.getOrNull()?.token}")
+                token = authState!!.getOrNull()?.token?: ""
+                navController.navigate("main/$token"){
+                    popUpTo("login"){
+                        inclusive = true
+                    }
+                }
             }
         }
     }
@@ -96,4 +103,6 @@ fun LoginScreen(
             }
         }
     }
+
+
 }

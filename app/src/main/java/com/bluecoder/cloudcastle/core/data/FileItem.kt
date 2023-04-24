@@ -1,12 +1,14 @@
 package com.bluecoder.cloudcastle.core.data
 
+import com.google.gson.annotations.SerializedName
+
 
 data class FileItem(
     val id : Int,
-    val originName : String,
-    val savedName : String,
-    val fileType : String,
-    val contentLength : Long,
-    val dateInMillis : Long,
+    @SerializedName("originname") val originName : String,
+    @SerializedName("savedname") val savedName : String,
+    @SerializedName("filetype") val fileType : String,
+    @SerializedName("contentlength") val contentLength : Long,
+    @SerializedName("dateinmillis") val dateInMillis : Long,
     val duration : Double?
 )
