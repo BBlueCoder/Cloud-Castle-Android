@@ -7,7 +7,9 @@ import com.bluecoder.cloudcastle.core.data.UserJWT
 import com.bluecoder.cloudcastle.core.repos.files.DefaultFilesRepo
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -48,7 +50,7 @@ class DefaultUsersRepoTest {
     @Test
     fun `signup with duplicate user`() : Unit = runBlocking {
         val msg = "Username is duplicated, please change your username"
-        val errorBody = ResponseBody.create(MediaType.parse("application/json"),msg)
+        val errorBody = msg.toResponseBody("application/json".toMediaTypeOrNull())
         val response = Response.error<UserJWT>(401,errorBody)
 
         val user = User("user","123")
@@ -80,7 +82,7 @@ class DefaultUsersRepoTest {
     @Test
     fun `login with invalid username`() : Unit = runBlocking {
         val msg = "User not found, please enter a valid username"
-        val errorBody = ResponseBody.create(MediaType.parse("application/json"),msg)
+        val errorBody = msg.toResponseBody("application/json".toMediaTypeOrNull())
         val response = Response.error<UserJWT>(401,errorBody)
 
         val user = User("user","123")
@@ -97,7 +99,7 @@ class DefaultUsersRepoTest {
     @Test
     fun `login with incorrect password`() : Unit = runBlocking {
         val msg = "Password is incorrect"
-        val errorBody = ResponseBody.create(MediaType.parse("application/json"),msg)
+        val errorBody = msg.toResponseBody("application/json".toMediaTypeOrNull())
         val response = Response.error<UserJWT>(401,errorBody)
 
         val user = User("user","123")

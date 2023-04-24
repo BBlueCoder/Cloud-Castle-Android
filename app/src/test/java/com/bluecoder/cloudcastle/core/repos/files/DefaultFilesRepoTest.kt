@@ -5,7 +5,9 @@ import com.bluecoder.cloudcastle.core.api.ServerAPI
 import com.bluecoder.cloudcastle.core.data.FileItem
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -52,7 +54,7 @@ class DefaultFilesRepoTest{
     @Test
     fun `getFiles with expired token`(): Unit = runBlocking {
         val msg = "token expired, You must login again to have a new valid token"
-        val errorBody = ResponseBody.create(MediaType.parse("application/json"),msg)
+        val errorBody = msg.toResponseBody("application/json".toMediaTypeOrNull())
         val response = Response.error<List<FileItem>>(401,errorBody)
 
         `when`(serverAPI.getFiles(expiredToken)).thenReturn(response)
@@ -68,7 +70,7 @@ class DefaultFilesRepoTest{
     @Test
     fun `getFiles with invalid token`(): Unit = runBlocking {
         val msg = "token is invalid, You must login again to have a new valid token"
-        val errorBody = ResponseBody.create(MediaType.parse("application/json"),msg)
+        val errorBody = msg.toResponseBody("application/json".toMediaTypeOrNull())
         val response = Response.error<List<FileItem>>(401,errorBody)
 
         `when`(serverAPI.getFiles(invalidToken)).thenReturn(response)
@@ -99,7 +101,7 @@ class DefaultFilesRepoTest{
     @Test
     fun `getFileById with invalid id`(): Unit = runBlocking {
         val msg = "File not found"
-        val errorBody = ResponseBody.create(MediaType.parse("application/json"),msg)
+        val errorBody = msg.toResponseBody("application/json".toMediaTypeOrNull())
         val response = Response.error<FileItem>(401,errorBody)
 
         `when`(serverAPI.getFileById(validToken,3)).thenReturn(response)
@@ -126,7 +128,7 @@ class DefaultFilesRepoTest{
     @Test
     fun `deleteFileById with invalid id`(): Unit = runBlocking {
         val msg = "File not found"
-        val errorBody = ResponseBody.create(MediaType.parse("application/json"),msg)
+        val errorBody = msg.toResponseBody("application/json".toMediaTypeOrNull())
         val response = Response.error<String>(401,errorBody)
 
         `when`(serverAPI.deleteFileById(validToken,3)).thenReturn(response)
