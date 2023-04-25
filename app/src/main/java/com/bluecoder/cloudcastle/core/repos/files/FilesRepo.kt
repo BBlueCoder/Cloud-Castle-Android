@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface FilesRepo {
 
-    suspend fun getFiles(token : String) : Flow<Result<List<FileItem>>>
+    suspend fun getFiles(token : String,fileType : String) : Flow<Result<List<FileItem>>>
 
     suspend fun getFileById(token : String,id : Int) : Flow<Result<FileItem>>
 

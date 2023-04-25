@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.bluecoder.cloudcastle.ui.screens.Screens
 import com.bluecoder.cloudcastle.ui.screens.auth.AuthViewModel
 import com.bluecoder.cloudcastle.ui.screens.auth.LoginScreen
 import com.bluecoder.cloudcastle.ui.screens.auth.SignupScreen
@@ -31,15 +32,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-            NavHost(navController = navController, startDestination = "login"){
-                composable("login"){
+            NavHost(navController = navController, startDestination = Screens.LoginScreen.route){
+                composable(Screens.LoginScreen.route){
                     LoginScreen(authViewModel = authViewModel,navController)
                 }
-                composable("signup"){
+                composable(Screens.SignupScreen.route){
                     SignupScreen(authViewModel = authViewModel,navController)
                 }
                 composable(
-                    "main/{token}",
+                    Screens.MainScreen.route,
                     arguments = listOf(navArgument("token"){type = NavType.StringType})
                 ){
                     MainScreen( navController = navController, token = it.arguments?.getString("token")?: "", mainViewModel = mainViewModel)

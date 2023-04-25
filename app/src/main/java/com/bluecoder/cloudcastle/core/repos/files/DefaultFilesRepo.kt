@@ -9,9 +9,9 @@ import javax.inject.Inject
 
 class DefaultFilesRepo @Inject constructor(private val serverAPI: ServerAPI) : FilesRepo {
 
-    override suspend fun getFiles(token : String): Flow<Result<List<FileItem>>> = flow {
+    override suspend fun getFiles(token : String,fileType : String): Flow<Result<List<FileItem>>> = flow {
         try {
-            val resp = serverAPI.getFiles(token)
+            val resp = serverAPI.getFiles(token,fileType)
 
             if(!resp.isSuccessful){
                 val errorMsg = resp.errorBody()?.string()
