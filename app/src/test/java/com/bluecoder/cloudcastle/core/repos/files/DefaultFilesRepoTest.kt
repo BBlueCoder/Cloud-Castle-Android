@@ -3,6 +3,7 @@ package com.bluecoder.cloudcastle.core.repos.files
 import android.util.Log
 import com.bluecoder.cloudcastle.core.api.ServerAPI
 import com.bluecoder.cloudcastle.core.data.FileItem
+import com.bluecoder.cloudcastle.utils.Constants.FILES_TYPE_IMAGES
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -42,9 +43,9 @@ class DefaultFilesRepoTest{
     fun `getFiles with success response`(): Unit = runBlocking {
         val response = Response.success(itemsList)
 
-        `when`(serverAPI.getFiles(validToken)).thenReturn(response)
+        `when`(serverAPI.getFiles(validToken,FILES_TYPE_IMAGES)).thenReturn(response)
 
-        val results = defaultFilesRepo.getFiles(validToken)
+        val results = defaultFilesRepo.getFiles(validToken,FILES_TYPE_IMAGES)
         results.collect{
             assertTrue(it.isSuccess)
             assertEquals(itemsList,it.getOrNull())
@@ -57,10 +58,10 @@ class DefaultFilesRepoTest{
         val errorBody = msg.toResponseBody("application/json".toMediaTypeOrNull())
         val response = Response.error<List<FileItem>>(401,errorBody)
 
-        `when`(serverAPI.getFiles(expiredToken)).thenReturn(response)
+        `when`(serverAPI.getFiles(expiredToken,FILES_TYPE_IMAGES)).thenReturn(response)
 
 
-        val results = defaultFilesRepo.getFiles(expiredToken)
+        val results = defaultFilesRepo.getFiles(expiredToken,FILES_TYPE_IMAGES)
         results.collect{
             assertTrue(it.isFailure)
             assertEquals(msg,it.exceptionOrNull()?.message)
@@ -73,10 +74,10 @@ class DefaultFilesRepoTest{
         val errorBody = msg.toResponseBody("application/json".toMediaTypeOrNull())
         val response = Response.error<List<FileItem>>(401,errorBody)
 
-        `when`(serverAPI.getFiles(invalidToken)).thenReturn(response)
+        `when`(serverAPI.getFiles(invalidToken,FILES_TYPE_IMAGES)).thenReturn(response)
 
 
-        val results = defaultFilesRepo.getFiles(invalidToken)
+        val results = defaultFilesRepo.getFiles(invalidToken,FILES_TYPE_IMAGES)
         results.collect{
             assertTrue(it.isFailure)
             assertEquals(msg,it.exceptionOrNull()?.message)
