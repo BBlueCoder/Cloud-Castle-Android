@@ -15,46 +15,62 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val repo: FilesRepo): ViewModel() {
+class MainViewModel @Inject constructor(private val repo: FilesRepo) : ViewModel() {
 
     var filesList = mutableStateOf<FilesData>(FilesData.Images(listOf()))
     var resultError = mutableStateOf("")
     var isLoading = mutableStateOf(false)
     var endReached = mutableStateOf(false)
 
-    fun fetchFiles(token : String,fileType : String){
+    var scrollPositions = mutableMapOf(
+        FILES_TYPE_IMAGES to 0,
+        FILES_TYPE_VIDEOS to 0,
+        FILES_TYPE_AUDIOS to 0,
+        FILES_TYPE_OTHERS to 0
+    )
+
+    var scrollOffset = mutableMapOf(
+        FILES_TYPE_IMAGES to 0,
+        FILES_TYPE_VIDEOS to 0,
+        FILES_TYPE_AUDIOS to 0,
+        FILES_TYPE_OTHERS to 0
+    )
+
+    fun fetchFiles(token: String, fileType: String) {
         isLoading.value = true
         resultError.value = ""
         viewModelScope.launch {
-            repo.getFiles(token,fileType.dropLast(1)).collectLatest {result ->
+            repo.getFiles(token, fileType.dropLast(1)).collectLatest { result ->
                 isLoading.value = false
-                if(result.isFailure){
-                    resultError.value = result.exceptionOrNull()?.message?: ""
+                if (result.isFailure) {
+                    resultError.value = result.exceptionOrNull()?.message ?: ""
                     return@collectLatest
                 }
-                println("dataTag ******* ${result.getOrNull()?.size}")
-                when(fileType){
+                when (fileType) {
                     FILES_TYPE_IMAGES -> {
-                        println("dataTag ************** $fileType")
-                        filesList.value = FilesData.Images(result.getOrNull()?: emptyList())
+                        filesList.value = FilesData.Images(result.getOrNull() ?: emptyList(),)
                     }
 
                     FILES_TYPE_VIDEOS -> {
-                        println("dataTag ************** $fileType")
-                        filesList.value = FilesData.Videos(result.getOrNull()?: emptyList())
+                        filesList.value = FilesData.Videos(result.getOrNull() ?: emptyList())
                     }
 
                     FILES_TYPE_AUDIOS -> {
-                        println("dataTag ************** $fileType")
-                        filesList.value = FilesData.Audios(result.getOrNull()?: emptyList())
+                        filesList.value = FilesData.Audios(result.getOrNull() ?: emptyList())
                     }
 
                     FILES_TYPE_OTHERS -> {
-                        println("dataTag ************** $fileType")
-                        filesList.value = FilesData.Others(result.getOrNull()?: emptyList())
+                        filesList.value = FilesData.Others(result.getOrNull() ?: emptyList())
                     }
                 }
             }
         }
     }
+
+    fun updateScrollPosition(fileType: String,position : Int,offset : Int) {
+        scrollPositions[fileType] = position
+        scrollOffset[fileType] = offset
+    }
+
+
 }

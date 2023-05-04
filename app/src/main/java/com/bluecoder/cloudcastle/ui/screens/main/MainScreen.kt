@@ -45,7 +45,7 @@ import okhttp3.Headers
 @Composable
 fun MainScreen(
     mainViewModel: MainViewModel,
-    navController: NavHostController,
+    navController: NavController,
     token: String
 ) {
     var currentScreen by remember {
