@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        compose_ui_version = '1.4.1'
+        compose_ui_version = '1.4.3'
         truth_version = '1.0.1'
         hilt_version = '2.44'
         retrofit_version = '2.9.0'

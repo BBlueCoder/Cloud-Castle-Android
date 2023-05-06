@@ -8,56 +8,69 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.bluecoder.cloudcastle.R
+import com.bluecoder.cloudcastle.ui.viewmodels.AuthViewModelInterface
+import androidx.compose.material3.*
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.VisualTransformation
+import com.bluecoder.cloudcastle.utils.Utils
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    authViewModel: AuthViewModel,
+    authViewModel: AuthViewModelInterface,
     navController: NavController
-){
-    val scaffoldState = rememberScaffoldState()
+) {
+    val snackBarHostState = remember {
+        SnackbarHostState()
+    }
 
-    val authState by authViewModel.userAuthenticatingState.collectAsStateWithLifecycle()
+    val usernameErrorState = authViewModel.usernameErrorState
+
+    val passwordErrorState = authViewModel.passwordErrorState
+
+    val authState by authViewModel.userAuthenticatingUIState.collectAsStateWithLifecycle()
 
     val focusManager = LocalFocusManager.current
 
-    var token = ""
-
-    if(authState != null){
-        if(authState!!.isFailure){
-            LaunchedEffect(key1 = scaffoldState.snackbarHostState){
-                scaffoldState.snackbarHostState.showSnackbar("Login failed")
+    if (authState != null) {
+        val failedLoginMsg = stringResource(id = R.string.failed_login)
+        if (authState!!.isFailure) {
+            LaunchedEffect(key1 = snackBarHostState) {
+                snackBarHostState.showSnackbar(
+                    authState!!.exceptionOrNull()?.message ?: failedLoginMsg
+                )
                 println("Login failed ${authState!!.exceptionOrNull()?.message}")
             }
-        }else{
-            LaunchedEffect(key1 = "login"){
+        } else {
+            LaunchedEffect(key1 = "login") {
                 println("LoginTAG **************** Login success ${authState!!.getOrNull()?.token}")
-                token = authState!!.getOrNull()?.token?: ""
-                navController.navigate("main/$token"){
-                    popUpTo("login"){
+                val token = authState!!.getOrNull()?.token ?: ""
+                navController.navigate("main/$token") {
+                    popUpTo("login") {
                         inclusive = true
                     }
                 }
             }
         }
     }
+
     Scaffold(
-        scaffoldState = scaffoldState,
+        snackbarHost = { SnackbarHost(snackBarHostState) },
         modifier = Modifier.padding(16.dp)
     ) { contentPadding ->
         Box(
@@ -65,28 +78,35 @@ fun LoginScreen(
                 .padding(contentPadding)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
-        ){
+        ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                OutlinedTextField(
-                    value = authViewModel.currentUser.username,
-                    onValueChange = {authViewModel.updateUser(username = it)},
-                    label = {Text(text = "Enter your username")},
-                    modifier = Modifier.fillMaxWidth(),
-                    singleLine = true
-                )
-                OutlinedTextField(
-                    value = authViewModel.currentUser.password,
-                    onValueChange = {authViewModel.updateUser(password = it)},
-                    label = {Text(text = "Enter your password")},
-                    modifier = Modifier.fillMaxWidth(),
-                    visualTransformation = PasswordVisualTransformation(),
-                    singleLine = true
-                )
+
+                OutlineTextField(
+                    value = authViewModel.currentUser.value.username,
+                    label = stringResource(id = R.string.enter_username),
+                    testTag = stringResource(id = R.string.username),
+                    isError = usernameErrorState.value.asString().isNotEmpty(),
+                    errorMessage = usernameErrorState.value.asString()
+                ) {
+                    authViewModel.updateUser(username = it, null)
+                }
+
+                OutlineTextField(
+                    value = authViewModel.currentUser.value.password,
+                    label = stringResource(id = R.string.enter_password),
+                    testTag = stringResource(id = R.string.password),
+                    transformation = PasswordVisualTransformation(),
+                    isError = passwordErrorState.value.asString().isNotEmpty(),
+                    errorMessage = passwordErrorState.value.asString()
+                ) {
+                    authViewModel.updateUser(password = it, username = null)
+                }
+
                 Spacer(modifier = Modifier.size(20.dp))
                 Text(
-                    text = "Don't have an account? Create one",
+                    text = stringResource(id = R.string.createAccount),
                     color = Color.Blue,
                     textDecoration = TextDecoration.Underline,
                     modifier = Modifier.clickable {
@@ -94,11 +114,12 @@ fun LoginScreen(
                         navController.navigate("signup")
                     }
                 )
+
                 Button(onClick = {
                     focusManager.clearFocus()
                     authViewModel.login()
                 }) {
-                    Text("Login")
+                    Text(stringResource(id = R.string.login))
                 }
             }
         }
@@ -106,3 +127,37 @@ fun LoginScreen(
 
 
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun OutlineTextField(
+    value: String,
+    label: String,
+    testTag: String,
+    isError: Boolean,
+    errorMessage : String,
+    transformation: PasswordVisualTransformation? = null,
+    onValueChange: (value: String) -> Unit
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = { onValueChange(it) },
+        label = { Text(text = label) },
+        modifier = Modifier
+            .fillMaxWidth()
+            .testTag(testTag),
+        visualTransformation = transformation ?: VisualTransformation.None,
+        singleLine = true,
+        isError = isError,
+        supportingText = {
+            if(isError){
+                Text(
+                    text = errorMessage,
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+        }
+    )
+}
+

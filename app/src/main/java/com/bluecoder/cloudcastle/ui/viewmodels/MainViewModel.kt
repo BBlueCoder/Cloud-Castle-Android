@@ -1,4 +1,4 @@
-package com.bluecoder.cloudcastle.ui.screens.main
+package com.bluecoder.cloudcastle.ui.viewmodels
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -15,28 +15,28 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val repo: FilesRepo) : ViewModel() {
+class MainViewModel @Inject constructor(private val repo: FilesRepo) : ViewModel(),MainViewModelInterface {
 
-    var filesList = mutableStateOf<FilesData>(FilesData.Images(listOf()))
-    var resultError = mutableStateOf("")
-    var isLoading = mutableStateOf(false)
-    var endReached = mutableStateOf(false)
+    override var filesList = mutableStateOf<FilesData>(FilesData.Images(listOf()))
+    override var resultError = mutableStateOf("")
+    override var isLoading = mutableStateOf(false)
+    override var endReached = mutableStateOf(false)
 
-    var scrollPositions = mutableMapOf(
+    override var scrollPositions = mutableMapOf(
         FILES_TYPE_IMAGES to 0,
         FILES_TYPE_VIDEOS to 0,
         FILES_TYPE_AUDIOS to 0,
         FILES_TYPE_OTHERS to 0
     )
 
-    var scrollOffset = mutableMapOf(
+    override var scrollOffset = mutableMapOf(
         FILES_TYPE_IMAGES to 0,
         FILES_TYPE_VIDEOS to 0,
         FILES_TYPE_AUDIOS to 0,
         FILES_TYPE_OTHERS to 0
     )
 
-    fun fetchFiles(token: String, fileType: String) {
+    override fun fetchFiles(token: String, fileType: String) {
         isLoading.value = true
         resultError.value = ""
         viewModelScope.launch {
@@ -67,7 +67,7 @@ class MainViewModel @Inject constructor(private val repo: FilesRepo) : ViewModel
         }
     }
 
-    fun updateScrollPosition(fileType: String,position : Int,offset : Int) {
+    override fun updateScrollPosition(fileType: String, position : Int, offset : Int) {
         scrollPositions[fileType] = position
         scrollOffset[fileType] = offset
     }
