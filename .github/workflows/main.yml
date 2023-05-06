@@ -73,27 +73,14 @@ jobs:
       - name: Change permission of gradlew script
         run: chmod +x gradlew
 
-      - name: Install Android SDK
-        uses: android-actions/setup-android@v2
-        with:
-          sdk-version: '31.0.0'
-
-      - name: Create emulator
-        run: |
-            echo "no" | avdmanager create avd --force -n test -k "system-images;android-31;google_apis;x86_64"
-
-      - name: Start emulator
-        uses: devicefarm/setup-android-emulator@v1
+      - name: Run UI test
+        uses: ReactiveCircus/android-emulator-runner@v2.28.0
         with:
           api-level: 21
-          arch: x86_64
-          profile: Nexus Low Res
-          options: "-no-window -gpu swiftshader_indirect"
-
-      - name: Wait for emulator to start
-        run: |
-            adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done; input keyevent 82'
-
-      - name: Build and run tests
-        run: |
-          ./gradlew connectedCheck
+          script: ./gradlew connectedCheck
+          
+      - name: Upload UI test report
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: instrumentation_test_report
+          path: app/build/reports/androidTests/connected/
