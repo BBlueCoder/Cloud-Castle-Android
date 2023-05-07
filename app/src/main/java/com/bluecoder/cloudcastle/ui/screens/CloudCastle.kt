@@ -16,7 +16,7 @@ import com.bluecoder.cloudcastle.ui.viewmodels.MainViewModelInterface
 
 @Composable
 fun CloudCastle(
-    authViewModel: AuthViewModelInterface,
+    authViewModel: AuthViewModelInterface = viewModel(),
     mainViewModel: MainViewModelInterface = viewModel()
 ) {
     val navController = rememberNavController()
