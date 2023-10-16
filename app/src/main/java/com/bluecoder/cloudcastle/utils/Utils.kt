@@ -1,30 +1,44 @@
 package com.bluecoder.cloudcastle.utils
 
+import android.os.Build
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.bluecoder.cloudcastle.R
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
 object Utils {
+
+    fun getTimeInMillis() : Long {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Instant.now().toEpochMilli()
+        } else {
+            System.currentTimeMillis()
+        }
+    }
 
     fun getThumbnailForFiles(fileType : String): Int {
         if(fileType.contains("audio"))
             return R.drawable.music
 
         if(fileType == "application/pdf")
-            return R.drawable.pdf
+            return R.drawable.ic_document_pdf
 
         if(fileType.contains("application") && fileType.contains("spreadsheetml.sheet"))
-            return R.drawable.xls
+            return R.drawable.ic_documents_xls
 
         if(fileType.contains("application") && fileType.contains("wordprocessingml.document"))
-            return R.drawable.doc
+            return R.drawable.ic_document_doc
 
         if(fileType.contains("application") && fileType.contains("zip") || fileType.contains("rar"))
-            return R.drawable.zip
+            return R.drawable.ic_document_zip
 
-        return R.drawable.document
+        if(fileType.contains("application") && !fileType.contains("zip") || fileType.contains("rar"))
+            return R.drawable.ic_document_rar
+
+        return R.drawable.ic_document
     }
 
     fun formatDuration(duration : Double) : String{

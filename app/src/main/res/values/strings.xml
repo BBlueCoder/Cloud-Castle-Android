@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Cloud Castle</string>
     <string name="username">username</string>
-    <string name="enter_username">Enter your username</string>
+    <string name="enter_username">Username</string>
     <string name="empty_username_field">Username can\'t be empty</string>
     <string name="empty_password_field">Password can\'t be empty</string>
     <string name="password">password</string>
-    <string name="enter_password">Enter your password</string>
-    <string name="createAccount">Don\'t have an account? Create one</string>
-    <string name="hasAccount">Already have an account? Login</string>
+    <string name="enter_password">Password</string>
+    <string name="createAccount">Create Account</string>
+    <string name="hasAccount">Already have an account</string>
     <string name="login">Login</string>
     <string name="failed_login">Login failed</string>
     <string name="signup">Sign up</string>
@@ -15,4 +15,5 @@
     <string name="duplicate_username">Username is duplicated, please change your username</string>
     <string name="user_not_found">User not found, please enter a valid username</string>
     <string name="invalid_password">Password is incorrect</string>
+    <string name="title_activity_display">DisplayActivity</string>
 </resources>

@@ -1,6 +1,6 @@
 package com.bluecoder.cloudcastle.ui.screens.main.data
 
-import com.bluecoder.cloudcastle.core.data.FileItem
+import com.bluecoder.cloudcastle.data.pojoclasses.FileItem
 
 sealed class FilesData{
 

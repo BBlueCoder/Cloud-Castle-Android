@@ -5,34 +5,33 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.bluecoder.cloudcastle.R
-import com.bluecoder.cloudcastle.core.data.User
-import com.bluecoder.cloudcastle.core.data.UserJWT
-import com.bluecoder.cloudcastle.ui.viewmodels.AuthViewModelInterface
+import com.bluecoder.cloudcastle.data.pojoclasses.User
+import com.bluecoder.cloudcastle.data.pojoclasses.UserJWT
 import com.bluecoder.cloudcastle.utils.Utils
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class AuthViewModelMock(private val activity: ComponentActivity) : AuthViewModelInterface {
+class AuthViewModelMock(private val activity: ComponentActivity) {
 
     private var fakeUser = mutableStateOf(User("user","123"))
     private var fakeResult = MutableStateFlow<Result<UserJWT>?>(null)
     private val validToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE0MTgzMjEsImRhdGEiOnsiaWQiOjMsInVzZXJuYW1lIjoidXNlcjIifSwiaWF0IjoxNjgxNDE2MjIxfQ.FrF6qw730u1SMAIWy0PsY4YzxJG-a-UWPBpwQuvO0_U"
 
 
-    override val userAuthenticatingUIState: StateFlow<Result<UserJWT>?>
+    val userAuthenticatingUIState: StateFlow<Result<UserJWT>?>
         get() = fakeResult.asStateFlow()
 
     private var _currentUser = mutableStateOf(User("",""))
-    override val currentUser: State<User>
+    val currentUser: State<User>
         get() = _currentUser
 
-    override val usernameErrorState: MutableState<Utils.UIText> =
+     val usernameErrorState: MutableState<Utils.UIText> =
         mutableStateOf(Utils.UIText.DynamicString(""))
-    override val passwordErrorState: MutableState<Utils.UIText> =
+     val passwordErrorState: MutableState<Utils.UIText> =
         mutableStateOf(Utils.UIText.DynamicString(""))
 
-    override fun updateUser(username: String?, password: String?) {
+     fun updateUser(username: String?, password: String?) {
         _currentUser.value = User(username?: _currentUser.value.username, password?: _currentUser.value.password)
         username?.let {
             usernameErrorState.value = Utils.UIText.DynamicString("")
@@ -42,7 +41,7 @@ class AuthViewModelMock(private val activity: ComponentActivity) : AuthViewModel
         }
     }
 
-    override fun signup() {
+     fun signup() {
         if(!isInputsValid())
             return
 
@@ -53,7 +52,7 @@ class AuthViewModelMock(private val activity: ComponentActivity) : AuthViewModel
         fakeResult.value = Result.success(UserJWT(validToken))
     }
 
-    override fun login() {
+     fun login() {
         if(!isInputsValid())
             return
 
@@ -70,7 +69,7 @@ class AuthViewModelMock(private val activity: ComponentActivity) : AuthViewModel
         fakeResult.value = Result.success(UserJWT(validToken))
     }
 
-    override fun clearUserData() {
+     fun clearUserData() {
         _currentUser.value = User("","")
         usernameErrorState.value = Utils.UIText.DynamicString("")
         passwordErrorState.value = Utils.UIText.DynamicString("")

@@ -38,10 +38,8 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.bluecoder.cloudcastle.R
-import com.bluecoder.cloudcastle.core.data.FileItem
+import com.bluecoder.cloudcastle.data.pojoclasses.FileItem
 import com.bluecoder.cloudcastle.ui.screens.main.data.FilesData
-import com.bluecoder.cloudcastle.ui.viewmodels.MainViewModel
-import com.bluecoder.cloudcastle.ui.viewmodels.MainViewModelInterface
 import com.bluecoder.cloudcastle.utils.Constants
 import com.bluecoder.cloudcastle.utils.Constants.FILES_TYPE_AUDIOS
 import com.bluecoder.cloudcastle.utils.Constants.FILES_TYPE_IMAGES

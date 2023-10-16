@@ -2,9 +2,9 @@ package com.bluecoder.cloudcastle.ui.screens.viewmodels
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import com.bluecoder.cloudcastle.core.data.FileItem
+import com.bluecoder.cloudcastle.data.pojoclasses.FileItem
 import com.bluecoder.cloudcastle.ui.screens.main.data.FilesData
-import com.bluecoder.cloudcastle.ui.viewmodels.MainViewModelInterface
+import com.bluecoder.cloudcastle.ui.screens.main.MainViewModelInterface
 import com.bluecoder.cloudcastle.utils.Constants
 
 class MainViewModelMock : MainViewModelInterface {
