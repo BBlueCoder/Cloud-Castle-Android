@@ -1,38 +1,86 @@
 package com.bluecoder.cloudcastle.ui.screens
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavType
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.bluecoder.cloudcastle.ui.viewmodels.AuthViewModelInterface
 import com.bluecoder.cloudcastle.ui.screens.auth.LoginScreen
 import com.bluecoder.cloudcastle.ui.screens.auth.SignupScreen
+import com.bluecoder.cloudcastle.ui.screens.content.ContentScreen
 import com.bluecoder.cloudcastle.ui.screens.main.MainScreen
-import com.bluecoder.cloudcastle.ui.viewmodels.MainViewModel
-import com.bluecoder.cloudcastle.ui.viewmodels.MainViewModelInterface
+import com.bluecoder.cloudcastle.ui.screens.auth.AuthViewModel
+import com.bluecoder.cloudcastle.ui.screens.main.MainViewModel
 
 @Composable
 fun CloudCastle(
-    authViewModel: AuthViewModelInterface,
-    mainViewModel: MainViewModelInterface = viewModel()
+    navController: NavHostController = rememberNavController(),
+    authViewModel: AuthViewModel = hiltViewModel(),
 ) {
-    val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Screens.LoginScreen.route){
-        composable(Screens.LoginScreen.route){
-            LoginScreen(authViewModel = authViewModel,navController)
+    NavHost(navController = navController, startDestination = Screens.LoginScreen.route) {
+        composable(Screens.LoginScreen.route) {
+            LoginScreen(authViewModel = authViewModel, navController)
         }
-        composable(Screens.SignupScreen.route){
-            SignupScreen(authViewModel = authViewModel,navController)
+        composable(Screens.SignupScreen.route) {
+            SignupScreen(authViewModel = authViewModel, navController)
         }
         composable(
             Screens.MainScreen.route,
-            arguments = listOf(navArgument("token"){type = NavType.StringType})
-        ){
-            MainScreen( navController = navController, token = it.arguments?.getString("token")?: "", mainViewModel = mainViewModel)
+            arguments = getArgumentsList(Screens.MainScreen)
+        ) {
+            MainScreen(
+                navController = navController
+            )
+        }
+        composable(
+            Screens.ContentScreen.route,
+            arguments = getArgumentsList(Screens.ContentScreen),
+            enterTransition = {
+                if(initialState.destination.route!!.contains("main")){
+                    slideIntoContainer(
+                        animationSpec = tween(300, easing = EaseIn),
+                        towards = AnimatedContentTransitionScope.SlideDirection.Start
+                    )
+                }else
+                    null
+            },
+            exitTransition = {
+                if (targetState.destination.route!!.contains("main")) {
+                    slideOutOfContainer(
+                        animationSpec = tween(300, easing = EaseOut),
+                        towards = AnimatedContentTransitionScope.SlideDirection.End
+                    )
+                } else
+                    null
+            }
+        ) {
+            ContentScreen(
+                navController = navController,
+                fileType = it.arguments?.getString(ScreenArgs.FileType.name) ?: ""
+            )
         }
     }
+}
+
+private fun getArgumentsList(screen: Screens): List<NamedNavArgument> {
+    val args = mutableListOf<NamedNavArgument>()
+    screen.args.forEach {
+        args.add(
+            navArgument(
+                it.name
+            ) {
+                type = it.type
+            }
+        )
+    }
+    return args
 }

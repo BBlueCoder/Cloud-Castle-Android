@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Cloud Castle</string>
     <string name="username">username</string>
-    <string name="enter_username">Enter your username</string>
+    <string name="enter_username">Username</string>
     <string name="empty_username_field">Username can\'t be empty</string>
     <string name="empty_password_field">Password can\'t be empty</string>
     <string name="password">password</string>
-    <string name="enter_password">Enter your password</string>
-    <string name="createAccount">Don\'t have an account? Create one</string>
-    <string name="hasAccount">Already have an account? Login</string>
+    <string name="enter_password">Password</string>
+    <string name="createAccount">Create Account</string>
+    <string name="hasAccount">Already have an account</string>
     <string name="login">Login</string>
     <string name="failed_login">Login failed</string>
     <string name="signup">Sign up</string>
@@ -15,4 +15,22 @@
     <string name="duplicate_username">Username is duplicated, please change your username</string>
     <string name="user_not_found">User not found, please enter a valid username</string>
     <string name="invalid_password">Password is incorrect</string>
+    <string name="title_activity_display">DisplayActivity</string>
+    <string name="back_icon_btn">Back Icon</string>
+    <string name="photos_videos_category_subtitle">%1$s Photos, %2$s Videos</string>
+    <string name="photos_category_title">Photos</string>
+    <string name="documents_category_title">Documents</string>
+    <string name="documents_category_subtitle">%1$s Files</string>
+    <string name="sounds_category_title">Sounds</string>
+    <string name="sounds_category_subtitle">%1$s Tracks</string>
+    <string name="see_all_btn">See all</string>
+    <string name="content_item">content item</string>
+    <string name="empty_content_category">It seems that this folder is empty, \n Add new files to it!</string>
+    <string name="content_error_category">An Error occurred, please try again</string>
+    <string name="menu">menu</string>
+    <string name="select_menu_item">select</string>
+    <string name="import_menu_item">import</string>
+    <string name="delete_menu_item">delete</string>
+    <string name="selected_items_count">%1$s Selected items</string>
+    <string name="checked_icon">checked icon</string>
 </resources>
