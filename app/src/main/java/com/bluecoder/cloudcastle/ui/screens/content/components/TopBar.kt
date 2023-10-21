@@ -24,8 +24,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.layout.positionInRoot
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
@@ -33,6 +37,7 @@ import com.bluecoder.cloudcastle.R
 import com.bluecoder.cloudcastle.ui.screens.content.MenuItems
 import com.bluecoder.cloudcastle.ui.theme.Black
 import com.bluecoder.cloudcastle.ui.theme.BlackHalf
+import com.bluecoder.cloudcastle.utils.Utils
 
 @Composable
 fun TopBar(
@@ -44,6 +49,8 @@ fun TopBar(
 ) {
 
     val density = LocalDensity.current
+    val context = LocalContext.current
+
     var isDropDownMenuVisible by remember {
         mutableStateOf(false)
     }
@@ -76,13 +83,17 @@ fun TopBar(
                 Icon(
                     if (isSelectionEnabled) Icons.Default.Close else Icons.Default.ArrowBack,
                     contentDescription = null,
-                    Modifier.clickable {
-                        iconTopBarClick()
-                    }
+                    Modifier
+                        .clickable {
+                            iconTopBarClick()
+                        }
+                        .semantics {
+                            testTag = context.resources.getString(R.string.back_icon_btn)
+                        }
                 )
                 if (isSelectionEnabled) {
                     Text(
-                        text = "$selectedItemsCount Selected items",
+                        text = stringResource(R.string.selected_items_count, selectedItemsCount),
                         color = Black,
                         fontWeight = FontWeight.Thin
                     )
@@ -97,7 +108,7 @@ fun TopBar(
 
             Icon(
                 painter = painterResource(id = R.drawable.ic_menu_kebab),
-                contentDescription = null,
+                contentDescription = stringResource(R.string.menu),
                 tint = Black,
                 modifier = Modifier
                     .clickable {

@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bluecoder.cloudcastle.R
 import com.bluecoder.cloudcastle.ui.screens.main.MainUiState
@@ -27,8 +28,8 @@ fun DocumentsSection(
 
     Category(
         R.drawable.documents,
-        "Documents",
-        "$documentsCount files"
+        stringResource(R.string.documents_category_title),
+        stringResource(R.string.documents_category_subtitle, documentsCount)
     ) {
         onSeeAllClick()
     }
@@ -45,7 +46,9 @@ fun DocumentsSection(
                     painter = painterResource(Utils.getThumbnailForFiles(it.fileType)),
                     contentDescription = it.originName,
                     alignment = Alignment.Center,
-                    modifier = Modifier.height(66.dp).width(68.dp)
+                    modifier = Modifier
+                        .height(66.dp)
+                        .width(68.dp)
                 )
             }
         }

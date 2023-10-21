@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bluecoder.cloudcastle.R
 import com.bluecoder.cloudcastle.ui.screens.main.MainUiState
@@ -30,16 +31,14 @@ fun PhotosSection(
 
     Category(
         R.drawable.photos,
-        "Photos",
-        "$photosCount Photos, $videosCount Videos"
+        stringResource(R.string.photos_category_title),
+        stringResource(R.string.photos_videos_category_subtitle, photosCount, videosCount)
     ) {
         onSeeAllClick()
     }
 
     if(!isPhotosLoading && !isPhotosLoadingFailed){
         val data = (photosUiState as MainUiState.Success).data
-
-        println("********************************************** data $data")
 
         val listState = rememberLazyListState()
 

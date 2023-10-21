@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -60,7 +61,7 @@ fun Category(
             colors = ButtonDefaults.buttonColors(containerColor = BlackHalf)
         ) {
             Text(
-                text = "See all",
+                text = stringResource(R.string.see_all_btn),
                 color = Black,
                 fontSize = 11.sp
             )

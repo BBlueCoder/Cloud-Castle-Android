@@ -27,6 +27,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,6 +47,8 @@ fun ListPhotos(
     isSelectionEnabled : Boolean,
     onItemClick: (fileItem : FileItem) -> Unit
 ) {
+
+    val context = LocalContext.current
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(5),
@@ -67,6 +72,7 @@ fun ListPhotos(
                             isSelected = !isSelected
                         onItemClick(fileItem)
                     }
+                    .semantics { testTag = context.resources.getString(R.string.content_item) }
             ){
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
@@ -101,12 +107,18 @@ fun ListPhotos(
                     }
                 }
                 if(isSelectionEnabled && isSelected){
-                    Box(modifier = Modifier.fillMaxSize().background(Black.copy(alpha = 0.5f)))
+                    Box(modifier = Modifier
+                        .fillMaxSize()
+                        .background(Black.copy(alpha = 0.5f)))
                     Box(
                         modifier = Modifier
                             .align(Alignment.TopEnd)
                     ){
-                        Icon(Icons.Filled.CheckCircle, contentDescription = null, tint = Color.Blue.copy(alpha = 0.8f))
+                        Icon(
+                            Icons.Filled.CheckCircle,
+                            contentDescription = stringResource(R.string.checked_icon),
+                            tint = Color.Blue.copy(alpha = 0.8f)
+                        )
                     }
                 }
             }

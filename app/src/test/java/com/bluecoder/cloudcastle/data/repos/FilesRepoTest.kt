@@ -1,11 +1,10 @@
-package com.bluecoder.cloudcastle.core.repos.files
+package com.bluecoder.cloudcastle.data.repos
 
 import com.bluecoder.cloudcastle.CacheManager
 import com.bluecoder.cloudcastle.data.api.ServerAPI
 import com.bluecoder.cloudcastle.data.pojoclasses.FileItem
 import com.bluecoder.cloudcastle.data.pojoclasses.FilesCount
-import com.bluecoder.cloudcastle.core.repos.buildResponse
-import com.bluecoder.cloudcastle.data.repos.FilesRepo
+import com.bluecoder.cloudcastle.buildResponse
 import com.bluecoder.cloudcastle.utils.Utils
 import io.mockk.coEvery
 import io.mockk.coVerify

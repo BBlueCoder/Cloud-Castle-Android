@@ -1,10 +1,9 @@
-package com.bluecoder.cloudcastle.core.repos.users
+package com.bluecoder.cloudcastle.data.repos
 
 import com.bluecoder.cloudcastle.data.api.ServerAPI
 import com.bluecoder.cloudcastle.data.pojoclasses.User
 import com.bluecoder.cloudcastle.data.pojoclasses.UserJWT
-import com.bluecoder.cloudcastle.core.repos.buildResponse
-import com.bluecoder.cloudcastle.data.repos.UsersRepo
+import com.bluecoder.cloudcastle.buildResponse
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking

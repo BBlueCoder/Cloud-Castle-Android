@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
@@ -42,6 +43,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import com.bluecoder.cloudcastle.R
 import com.bluecoder.cloudcastle.worker.UploadFilesWorker
 import com.bluecoder.cloudcastle.ui.screens.content.components.Empty
 import com.bluecoder.cloudcastle.ui.screens.content.components.Failed
@@ -163,10 +165,10 @@ fun ContentScreen(
     )
 
     val menuItems = listOf(
-        MenuItems("select", Icons.Default.Edit) {
+        MenuItems(stringResource(R.string.select_menu_item), Icons.Default.Edit) {
             isSelectionEnabled = true
         },
-        MenuItems("import", Icons.Default.Add) {
+        MenuItems(stringResource(R.string.import_menu_item), Icons.Default.Add) {
             when{
                 fileType.contains("application") -> {
                     pickDocumentLauncher.launch(
@@ -197,11 +199,10 @@ fun ContentScreen(
                 }
             }
         },
-        MenuItems("delete", Icons.Default.Delete) {
+        MenuItems(stringResource(R.string.delete_menu_item), Icons.Default.Delete) {
             viewModel.deleteFiles()
             isSelectionEnabled = false
-        },
-        MenuItems("filter", Icons.Default.Menu) {},
+        }
     )
 
 

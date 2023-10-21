@@ -26,12 +26,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bluecoder.cloudcastle.R
 import com.bluecoder.cloudcastle.data.pojoclasses.FileItem
 import com.bluecoder.cloudcastle.ui.theme.Black
 import com.bluecoder.cloudcastle.utils.Utils
@@ -42,6 +46,8 @@ fun ListDocuments(
     isSelectionEnabled : Boolean,
     onItemClick: (fileItem : FileItem) -> Unit
 ) {
+    val context = LocalContext.current
+
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
         horizontalArrangement = Arrangement.spacedBy(20.dp),
@@ -66,6 +72,9 @@ fun ListDocuments(
                         if (isSelectionEnabled)
                             isSelected = !isSelected
                         onItemClick(fileItem)
+                    }
+                    .semantics {
+                        testTag = context.resources.getString(R.string.content_item)
                     }
             ){
                 Column(

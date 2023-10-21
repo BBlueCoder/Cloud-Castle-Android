@@ -1,4 +1,4 @@
-package com.bluecoder.cloudcastle.core.repos
+package com.bluecoder.cloudcastle
 
 
 import okhttp3.MediaType.Companion.toMediaTypeOrNull

@@ -17,15 +17,17 @@ import com.bluecoder.cloudcastle.CloudCastleTest
 import com.bluecoder.cloudcastle.R
 import com.bluecoder.cloudcastle.buildResponse
 import com.bluecoder.cloudcastle.data.api.ServerAPI
-import com.bluecoder.cloudcastle.data.pojoclasses.User
 import com.bluecoder.cloudcastle.data.pojoclasses.UserJWT
 import com.bluecoder.cloudcastle.data.repos.UsersRepo
 import com.bluecoder.cloudcastle.getString
+import com.bluecoder.cloudcastle.invalidUser
 import com.bluecoder.cloudcastle.login
 import com.bluecoder.cloudcastle.signUp
 import com.bluecoder.cloudcastle.ui.screens.content.ContentScreenViewModel
 import com.bluecoder.cloudcastle.ui.screens.main.MainViewModel
 import com.bluecoder.cloudcastle.utils.SharedPreferencesManager
+import com.bluecoder.cloudcastle.validToken
+import com.bluecoder.cloudcastle.validUser
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.mockk.coEvery
@@ -43,10 +45,11 @@ class CloudCastleKtTest{
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
 
-    private lateinit var authViewModel : AuthViewModel
-
     @Inject
     lateinit var serverAPI: ServerAPI
+
+    @Inject
+    lateinit var authViewModel : AuthViewModel
 
     @Inject
     lateinit var mainViewModel: MainViewModel
@@ -54,34 +57,17 @@ class CloudCastleKtTest{
     @Inject
     lateinit var contentScreenViewModel: ContentScreenViewModel
 
-    private lateinit var userRepo : UsersRepo
     private lateinit var context : android.content.Context
-    private lateinit var sharedPreferencesManager: SharedPreferencesManager
-
-    private var validUser = User("user","password")
-    private var invalidUser = User("invalid","password")
-
-    private val validToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODE0MTgzMjEsImRhdGEiOnsiaWQiOjMsInVzZXJuYW1lIjoidXNlcjIifSwiaWF0IjoxNjgxNDE2MjIxfQ.FrF6qw730u1SMAIWy0PsY4YzxJG-a-UWPBpwQuvO0_U"
-
 
     @Before
-    fun setUp(){
+    fun setUp() {
         hiltRule.inject()
 
-        stubApi()
-
-        userRepo = UsersRepo(serverAPI)
         context = InstrumentationRegistry.getInstrumentation().context
-        sharedPreferencesManager = SharedPreferencesManager(context)
 
-        authViewModel = AuthViewModel(
-            userRepo,
-            sharedPreferencesManager
-        )
         authViewModel.clearUserData()
 
         composeTestRule.setContent {
-
             CloudCastleTest(
                 authViewModel = authViewModel,
                 mainViewModel = mainViewModel,
@@ -91,27 +77,12 @@ class CloudCastleKtTest{
 
     }
 
-    private fun stubApi(){
-        coEvery { serverAPI.signup(validUser) } returns buildResponse(
-            isResponseSuccessful = true,
-            response = UserJWT(validToken)
-        )
-
-        coEvery { serverAPI.login(validUser) } returns buildResponse(
-            isResponseSuccessful = true,
-            response = UserJWT(validToken)
-        )
-
-
-    }
-
     private fun getString(id : Int): String {
-        return com.bluecoder.cloudcastle.getString(composeTestRule,id)
+        return getString(composeTestRule,id)
     }
 
     @Test
     fun testNavigateToSignupScreenThenBackToLoginScreen(){
-
 
         composeTestRule.onNodeWithText(getString(composeTestRule,R.string.createAccount))
             .performClick()
