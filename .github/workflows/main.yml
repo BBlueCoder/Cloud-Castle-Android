@@ -82,9 +82,7 @@ jobs:
 
   instrumentation-test:
     needs: unit-test
-    runs-on: ubuntu-latest
-    env:
-      ANDROID_SDK_ROOT: /opt/android-sdk
+    runs-on: macos-latest
     steps:
 
       - name: Set up JAVA JDK 17
