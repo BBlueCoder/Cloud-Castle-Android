@@ -1,4 +1,4 @@
-package com.bluecoder.cloudcastle
+package com.bluecoder.cloudcastle.ui.screens
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

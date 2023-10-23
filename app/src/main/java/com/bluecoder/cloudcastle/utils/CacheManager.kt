@@ -1,4 +1,4 @@
-package com.bluecoder.cloudcastle
+package com.bluecoder.cloudcastle.utils
 
 import com.bluecoder.cloudcastle.data.pojoclasses.FileItem
 import com.bluecoder.cloudcastle.data.pojoclasses.FilesCount
