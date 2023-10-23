@@ -1,14 +1,11 @@
-package com.bluecoder.cloudcastle
+package com.bluecoder.cloudcastle.utils
 
 import android.app.Application
-import android.content.res.Configuration
-import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
-import coil.util.DebugLogger
 import dagger.hilt.android.HiltAndroidApp
 import okhttp3.OkHttpClient
 import javax.inject.Inject

@@ -13,6 +13,7 @@ import com.bluecoder.cloudcastle.ui.screens.ScreenArgs
 import com.bluecoder.cloudcastle.ui.screens.auth.AuthViewModel
 import com.bluecoder.cloudcastle.ui.screens.content.ContentScreenViewModel
 import com.bluecoder.cloudcastle.ui.screens.main.MainViewModel
+import com.bluecoder.cloudcastle.utils.CacheManager
 import com.bluecoder.cloudcastle.utils.SharedPreferencesManager
 import dagger.Module
 import dagger.Provides

@@ -1,6 +1,6 @@
 package com.bluecoder.cloudcastle.data.repos
 
-import com.bluecoder.cloudcastle.CacheManager
+import com.bluecoder.cloudcastle.utils.CacheManager
 import com.bluecoder.cloudcastle.data.api.ServerAPI
 import com.bluecoder.cloudcastle.data.pojoclasses.FileItem
 import com.bluecoder.cloudcastle.data.pojoclasses.FilesCount

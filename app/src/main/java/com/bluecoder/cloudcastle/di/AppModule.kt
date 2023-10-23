@@ -5,7 +5,7 @@ import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
-import com.bluecoder.cloudcastle.CacheManager
+import com.bluecoder.cloudcastle.utils.CacheManager
 import com.bluecoder.cloudcastle.data.api.ServerAPI
 import com.bluecoder.cloudcastle.data.repos.FilesRepo
 import com.bluecoder.cloudcastle.data.repos.UsersRepo
