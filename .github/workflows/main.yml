@@ -102,7 +102,7 @@ jobs:
       - name: Run UI test
         uses: ReactiveCircus/android-emulator-runner@v2.28.0
         with:
-          api-level: 21
+          api-level: 24
           script: ./gradlew connectedCheck
 
       - name: Upload UI test report
