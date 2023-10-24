@@ -14,7 +14,7 @@ android {
     defaultConfig {
         applicationId "com.bluecoder.cloudcastle"
         minSdk 21
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -57,46 +57,42 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
     implementation 'androidx.activity:activity-compose:1.8.0'
+
+    //Jetpack Compose
     implementation "androidx.compose.ui:ui:$compose_ui_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
-
-    implementation "androidx.compose.material3:material3:1.1.2"
-    implementation "androidx.compose.material3:material3-window-size-class:1.1.2"
+    androidTestImplementation platform('androidx.compose:compose-bom:2023.03.00')
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2"
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.2"
     implementation platform('androidx.compose:compose-bom:2023.03.00')
     implementation 'androidx.compose.ui:ui-graphics'
 
-    //implementation 'androidx.compose.material:material:1.4.3'
+    //Navigation for jetpack compose
+    implementation "androidx.navigation:navigation-compose:$nav_version"
 
-    //Test Dependencies
+    //Material Design 3
+    implementation "androidx.compose.material3:material3:1.1.2"
+    implementation "androidx.compose.material3:material3-window-size-class:1.1.2"
 
-    //Junit
+    //JUnit4
     testImplementation 'junit:junit:4.13.2'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    androidTestImplementation platform('androidx.compose:compose-bom:2023.03.00')
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
-
-    //Coroutines test
+    //Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1'
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1"
-
-    //hilt test
-    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
-    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     //Mockk
     testImplementation "io.mockk:mockk-android:$mockkVersion"
     testImplementation "io.mockk:mockk-agent:$mockkVersion"
     androidTestImplementation "io.mockk:mockk-android:$mockkVersion"
     androidTestImplementation "io.mockk:mockk-agent:$mockkVersion"
-
-    //WorkManager test
-    androidTestImplementation "androidx.work:work-testing:$work_version"
-
-    implementation "androidx.navigation:navigation-compose:$nav_version"
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -109,20 +105,19 @@ dependencies {
     implementation 'androidx.hilt:hilt-work:1.0.0'
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
 
+    //WorkManager
     implementation "androidx.work:work-runtime-ktx:$work_version"
+    androidTestImplementation "androidx.work:work-testing:$work_version"
 
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2"
-
-
-    debugImplementation "androidx.compose.ui:ui-tooling:1.5.3"
-    implementation "androidx.compose.ui:ui-tooling-preview:1.5.3"
-
-    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.2"
+    //Coil
     implementation "io.coil-kt:coil-compose:2.3.0"
 
-    implementation "androidx.media3:media3-exoplayer:1.1.1"
-    implementation "androidx.media3:media3-exoplayer-dash:1.1.1"
-    implementation "androidx.media3:media3-ui:1.1.1"
-    implementation 'androidx.media3:media3-datasource-okhttp:1.1.1'
+    //Media3 ExoPlayer
+    implementation "androidx.media3:media3-exoplayer:$media3_exoplayer"
+    implementation "androidx.media3:media3-exoplayer-dash:$media3_exoplayer"
+    implementation "androidx.media3:media3-ui:$media3_exoplayer"
+    implementation "androidx.media3:media3-datasource-okhttp:$media3_exoplayer"
 }
